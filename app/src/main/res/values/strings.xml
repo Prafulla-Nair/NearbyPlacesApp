@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NearbyPlacesApp</string>
+    <string name="restautants">Restaurants</string>
+    <string name="cafe">Cafes</string>
+    <string name="bar">Bars</string>
+    <string name="places_error">An error has occured while loading the data.</string>
+    <string name="location_off">Turn on location.</string>
+</resources>
