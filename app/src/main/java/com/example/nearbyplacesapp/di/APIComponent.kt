@@ -10,5 +10,4 @@ import dagger.Component
  interface APIComponent{
      fun inject(GoogleAPIService: GoogleAPIService)
      fun inject(viewModel: ListViewModel)
-
 }

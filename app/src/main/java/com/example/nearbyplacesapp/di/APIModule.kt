@@ -27,7 +27,8 @@ class APIModule {
     }
 
     @Provides
-    fun provideGoogleAPIService(): GoogleAPIService{
+    fun provideGoogleAPIService(): GoogleAPIService {
         return GoogleAPIService()
     }
+
 }

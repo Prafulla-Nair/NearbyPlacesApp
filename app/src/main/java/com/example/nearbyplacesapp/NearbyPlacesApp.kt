@@ -6,12 +6,12 @@ import com.example.nearbyplacesapp.di.AppModule
 import com.example.nearbyplacesapp.di.DaggerAppComponent
 
 class NearbyPlacesApp : Application() {
-    var component: AppComponent? = null
+    var appComponent: AppComponent? = null
 
     override fun onCreate() {
         super.onCreate()
         //need to run once to generate it
-        component = DaggerAppComponent.builder()
+        appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
     }

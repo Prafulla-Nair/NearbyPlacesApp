@@ -4,7 +4,7 @@ package com.example.nearbyplacesapp.model.places
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class CustomA  (
+data class GooglePlaceResult  (
     @Expose
     @SerializedName("geometry")
     var geometry: Geometry,

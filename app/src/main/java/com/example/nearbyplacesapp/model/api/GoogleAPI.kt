@@ -1,6 +1,6 @@
 package com.example.nearbyplacesapp.model.api
 
-import com.example.nearbyplacesapp.model.places.GooglePlaces
+import com.example.nearbyplacesapp.model.places.GooglePlacesResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -28,7 +28,7 @@ interface GoogleAPI {
             value = "key",
             encoded = true
         ) key: String?
-    ): Single<GooglePlaces>
+    ): Single<GooglePlacesResponse>
 
 
 }

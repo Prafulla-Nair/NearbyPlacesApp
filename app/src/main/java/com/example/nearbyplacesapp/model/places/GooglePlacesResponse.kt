@@ -4,10 +4,10 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-class GooglePlaces(
+data class GooglePlacesResponse(
     @Expose
     @SerializedName("results")
-    var customA: List<CustomA>
+    var googlePlaceResult: List<GooglePlaceResult>
 )
 
 

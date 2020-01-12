@@ -2,7 +2,7 @@ package com.example.nearbyplacesapp.model.api
 
 import android.location.Location
 import com.example.nearbyplacesapp.di.DaggerAPIComponent
-import com.example.nearbyplacesapp.model.places.GooglePlaces
+import com.example.nearbyplacesapp.model.places.GooglePlacesResponse
 import io.reactivex.Single
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
@@ -20,8 +20,8 @@ class GoogleAPIService {
     }
 
 
-    fun getPlaces(location: Location): Single<List<GooglePlaces>> {
-        val observable1: Single<GooglePlaces> =
+    fun getPlaces(location: Location): Single<List<GooglePlacesResponse>> {
+        val observable1: Single<GooglePlacesResponse> =
             googleAPI.getPlaces(
                 "restaurant",
                 "" + location.latitude + "," + location.longitude,
@@ -30,7 +30,7 @@ class GoogleAPIService {
                 API_KEY
             )
 
-        val observable2: Single<GooglePlaces> =
+        val observable2: Single<GooglePlacesResponse> =
             googleAPI.getPlaces(
                 "cafe",
                 "" + location.latitude + "," + location.longitude,
@@ -39,7 +39,7 @@ class GoogleAPIService {
                 API_KEY
             )
 
-        val observable3: Single<GooglePlaces> =
+        val observable3: Single<GooglePlacesResponse> =
             googleAPI.getPlaces(
                 "bar",
                 "" + location.latitude + "," + location.longitude,
@@ -50,10 +50,10 @@ class GoogleAPIService {
 
 
         return Single.zip(observable1.subscribeOn(Schedulers.newThread()),
-            observable2.subscribeOn(Schedulers.newThread()),
-            observable3.subscribeOn(Schedulers.newThread()),
-            Function3<GooglePlaces, GooglePlaces, GooglePlaces, List<GooglePlaces>>
-            { restaurants: GooglePlaces, cafe: GooglePlaces, bar: GooglePlaces ->
+            observable2.subscribeOn(Schedulers.io()),
+            observable3.subscribeOn(Schedulers.io()),
+            Function3<GooglePlacesResponse, GooglePlacesResponse, GooglePlacesResponse, List<GooglePlacesResponse>>
+            { restaurants: GooglePlacesResponse, cafe: GooglePlacesResponse, bar: GooglePlacesResponse ->
                 getPlacesList(
                     restaurants,
                     cafe,
@@ -63,15 +63,11 @@ class GoogleAPIService {
     }
 
     private fun getPlacesList(
-        restaurants: GooglePlaces,
-        bar: GooglePlaces,
-        cafe: GooglePlaces
-    ): List<GooglePlaces> {
-        val list: ArrayList<GooglePlaces> = ArrayList()
-        list.add(restaurants)
-        list.add(bar)
-        list.add(cafe)
-        return list
+        restaurants: GooglePlacesResponse,
+        bar: GooglePlacesResponse,
+        cafe: GooglePlacesResponse
+    ): List<GooglePlacesResponse> {
+        return arrayListOf(restaurants, bar, cafe)
     }
 
 }

@@ -5,17 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.nearbyplacesapp.di.DaggerAPIComponent
 import com.example.nearbyplacesapp.model.api.GoogleAPIService
-import com.example.nearbyplacesapp.model.places.CustomA
-import com.example.nearbyplacesapp.model.places.GooglePlaces
+import com.example.nearbyplacesapp.model.places.GooglePlaceResult
+import com.example.nearbyplacesapp.model.places.GooglePlacesResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import javax.inject.Inject
 
 class ListViewModel : ViewModel() {
-    var restaurants = MutableLiveData<List<CustomA>>()
-    var cafe = MutableLiveData<List<CustomA>>()
-    var bar = MutableLiveData<List<CustomA>>()
+    var restaurants = MutableLiveData<List<GooglePlaceResult>>()
+    var cafe = MutableLiveData<List<GooglePlaceResult>>()
+    var bar = MutableLiveData<List<GooglePlaceResult>>()
     var placesLoadError = MutableLiveData<Boolean>()
     var loading = MutableLiveData<Boolean>()
 
@@ -40,12 +40,12 @@ class ListViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
 
             .subscribe(object :
-                DisposableSingleObserver<List<GooglePlaces>>() {
+                DisposableSingleObserver<List<GooglePlacesResponse>>() {
 
-                override fun onSuccess(t: List<GooglePlaces>) {
-                    restaurants.postValue(t[0].customA)
-                    cafe.postValue(t[1].customA)
-                    bar.postValue(t[2].customA)
+                override fun onSuccess(t: List<GooglePlacesResponse>) {
+                    restaurants.postValue(t[0].googlePlaceResult)
+                    cafe.postValue(t[1].googlePlaceResult)
+                    bar.postValue(t[2].googlePlaceResult)
                     placesLoadError.value = false
                     loading.value = false
                 }
@@ -61,8 +61,8 @@ class ListViewModel : ViewModel() {
     }
 
     override fun onCleared() {
-        super.onCleared()
         disposable.clear()
+        super.onCleared()
     }
 
 }
