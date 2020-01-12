@@ -50,12 +50,13 @@ class MainActivity : AppCompatActivity() {
 
         locationProvider.getLastLocation()!!.observe(this, Observer<Location?> {
             location = it
-            viewModel.refresh(location!!)
+            if (location != null)
+                viewModel.refresh(location!!)
 
         })
 
         swipeRefreshLayout.setOnRefreshListener {
-            if (viewModel != null && location != null) {
+            if (location != null) {
                 viewModel.refresh(location!!)
                 swipeRefreshLayout.isRefreshing = false
             }

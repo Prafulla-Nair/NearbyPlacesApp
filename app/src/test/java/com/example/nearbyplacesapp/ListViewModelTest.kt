@@ -33,7 +33,7 @@ class ListViewModelTest {
     @InjectMocks
     lateinit var listViewModel: ListViewModel
 
-    private lateinit var testSingle: Single<List<GooglePlaces>>
+    private lateinit var testSingle: Single<List<GooglePlacesResponse>>
 
     @Before
     fun setup() {
@@ -48,23 +48,23 @@ class ListViewModelTest {
         val geometry = Geometry(locationA)
 
         val customA1 =
-            CustomA(geometry, "401 Park Ave S, New York", "McDonald's", "3.6", openingHours)
+            GooglePlaceResult(geometry, "401 Park Ave S, New York", "McDonald's", "3.6", openingHours)
         val customA2 =
-            CustomA(geometry, "402 Park Ave S, New York", "McDonald's", "3.7", openingHours)
+            GooglePlaceResult(geometry, "402 Park Ave S, New York", "McDonald's", "3.7", openingHours)
         val customA3 =
-            CustomA(geometry, "403 Park Ave S, New York", "McDonald's", "3.8", openingHours)
+            GooglePlaceResult(geometry, "403 Park Ave S, New York", "McDonald's", "3.8", openingHours)
 
-        val customAPlacesList: ArrayList<CustomA> = ArrayList()
+        val customAPlacesList: ArrayList<GooglePlaceResult> = ArrayList()
 
         customAPlacesList.add(customA1)
         customAPlacesList.add(customA2)
         customAPlacesList.add(customA3)
 
-        val googlePlaces1 = GooglePlaces(customAPlacesList)
-        val googlePlaces2 = GooglePlaces(customAPlacesList)
-        val googlePlaces3 = GooglePlaces(customAPlacesList)
+        val googlePlaces1 = GooglePlacesResponse(customAPlacesList)
+        val googlePlaces2 = GooglePlacesResponse(customAPlacesList)
+        val googlePlaces3 = GooglePlacesResponse(customAPlacesList)
 
-        val googlePlacesList: ArrayList<GooglePlaces> = ArrayList()
+        val googlePlacesList: ArrayList<GooglePlacesResponse> = ArrayList()
         googlePlacesList.add(googlePlaces1)
         googlePlacesList.add(googlePlaces2)
         googlePlacesList.add(googlePlaces3)
@@ -88,7 +88,7 @@ class ListViewModelTest {
     fun getPlacesFail() {
         val location = mock(Location::class.java)
         testSingle =
-            Single.error<List<GooglePlaces>>(Throwable())
+            Single.error<List<GooglePlacesResponse>>(Throwable())
         Mockito.`when`<Any>(googleAPIService.getPlaces(location)).thenReturn(testSingle)
         listViewModel.refresh(location)
         Assert.assertEquals(true, listViewModel.placesLoadError.value)
